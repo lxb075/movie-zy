@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 我的私藏影单</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 基础样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* 顶部横幅区 */
+        .banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 200, 150, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .banner::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 70% 80%, rgba(150, 180, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 200, 150, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .banner p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 推荐网格区域 */
+        .recommendations {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 24px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: rgba(255, 200, 150, 0.08);
+            border: 1px solid rgba(255, 200, 150, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 200, 150, 0.12);
+            border-color: rgba(255, 200, 150, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 200, 150, 0.1);
+        }
+
+        .card-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffd9b3;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 底部版权区 */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 响应式断点 */
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .banner h1 {
+                font-size: 3rem;
+            }
+
+            .card-emoji {
+                font-size: 4rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .banner h1 {
+                font-size: 3.5rem;
+            }
+
+            .banner {
+                padding: 80px 20px;
+            }
+        }
+
+        /* 暗色模式优化 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0f0f1a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部横幅区 -->
+    <header class="banner">
+        <h1>🎬 我的私藏影单</h1>
+        <p>精选电影与动漫，陪你度过每一个美好时光</p>
+    </header>
+
+    <!-- 推荐网格区域 -->
+    <main class="recommendations">
+        <div class="grid">
+            <!-- 卡片1：千与千寻 -->
+            <article class="card">
+                <span class="card-emoji">🏯</span>
+                <h2 class="card-title">千与千寻</h2>
+                <p class="card-desc">成长就是一场不回头的地下铁之旅，每一次相遇都是命运的馈赠。</p>
+            </article>
+
+            <!-- 卡片2：星际穿越 -->
+            <article class="card">
+                <span class="card-emoji">🚀</span>
+                <h2 class="card-title">星际穿越</h2>
+                <p class="card-desc">爱是唯一能穿越维度的力量，时间可以伸缩，但父女之爱永恒。</p>
+            </article>
+
+            <!-- 卡片3：鬼灭之刃 -->
+            <article class="card">
+                <span class="card-emoji">⚔️</span>
+                <h2 class="card-title">鬼灭之刃</h2>
+                <p class="card-desc">为了保护该保护的人，炭治郎从不退缩，水之呼吸斩断一切绝望。</p>
+            </article>
+
+            <!-- 卡片4：你的名字 -->
+            <article class="card">
+                <span class="card-emoji">🌠</span>
+                <h2 class="card-title">你的名字</h2>
+                <p class="card-desc">跨越时空的绳结，把两个素未谋面的灵魂紧紧连在一起。</p>
+            </article>
+
+            <!-- 卡片5：寻梦环游记 -->
+            <article class="card">
+                <span class="card-emoji">💀</span>
+                <h2 class="card-title">寻梦环游记</h2>
+                <p class="card-desc">真正的死亡是世界上再没有一个人记得你，请记住我，亲爱的家人。</p>
+            </article>
+
+            <!-- 卡片6：咒术回战 -->
+            <article class="card">
+                <span class="card-emoji">👊</span>
+                <h2 class="card-title">咒术回战</h2>
+                <p class="card-desc">为了追求正确的死亡，少年们投身于永无止境的咒术战斗。</p>
+            </article>
+        </div>
+    </main>
+
+    <!-- 底部版权区 -->
+    <footer class="footer">
+        <p>© 2025 我的推荐 · 仅供个人学习</p>
+    </footer>
+</body>
+</html>
