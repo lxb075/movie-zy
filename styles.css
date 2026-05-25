@@ -1,0 +1,98 @@
+/* ==================== 全局重置与基础样式 ==================== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;min-height:100vh;line-height:1.6;transition:all .3s ease}
+/* ==================== 暗色主题 ==================== */
+:root{--bg-primary:#0A0C10;--bg-secondary:#12161F;--accent-purple:#7C3AED;--accent-cyan:#06B6D4;--text-primary:#fff;--text-secondary:rgba(255,255,255,.7);--text-muted:rgba(255,255,255,.5)}
+[data-theme="dark"]{--bg-primary:#0A0C10;--bg-secondary:#12161F;--text-primary:#fff;--text-secondary:rgba(255,255,255,.7);--text-muted:rgba(255,255,255,.5);--bg-gradient:linear-gradient(135deg,#0A0C10 0%,#12161F 100%);--banner-gradient:linear-gradient(to bottom,transparent 0%,#0A0C10 100%);--card-overlay:linear-gradient(to top,rgba(10,12,16,.9)0%,transparent 60%);--modal-bg:rgba(0,0,0,.85)}
+/* ==================== 亮色主题 ==================== */
+[data-theme="light"]{--bg-primary:#f8fafc;--bg-secondary:#ffffff;--accent-purple:#7C3AED;--accent-cyan:#06B6D4;--text-primary:#1e293b;--text-secondary:rgba(30,41,59,.7);--text-muted:rgba(30,41,59,.5);--bg-gradient:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);--banner-gradient:linear-gradient(to bottom,transparent 0%,#f8fafc 100%);--card-overlay:linear-gradient(to top,rgba(248,250,252,.9)0%,transparent 60%);--modal-bg:rgba(0,0,0,.6)}
+body{background-color:var(--bg-primary);color:var(--text-primary)}
+/* ==================== Banner区域 ==================== */
+.banner{position:relative;height:400px;overflow:hidden;background:var(--bg-gradient)}
+.banner-image{width:100%;height:100%;object-fit:cover;opacity:.6}
+.banner-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--banner-gradient);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 20px}
+.banner-title{font-size:3rem;font-weight:800;margin-bottom:10px;text-shadow:0 0 40px rgba(124,58,237,.5);z-index:1}
+.banner-subtitle{font-size:1.2rem;color:var(--text-secondary);z-index:1}
+/* ==================== 主题切换按钮 ==================== */
+.theme-toggle{position:absolute;top:20px;right:20px;z-index:100}
+.theme-btn{width:50px;height:50px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:1.5rem;transition:all .3s ease;display:flex;align-items:center;justify-content:center}
+.theme-btn:hover{border-color:var(--accent-purple);transform:rotate(30deg);box-shadow:0 0 20px rgba(124,58,237,.4)}
+/* ==================== 主容器 ==================== */
+.container{max-width:1400px;margin:0 auto;padding:40px 20px}
+/* ==================== 搜索与筛选区域 ==================== */
+.controls{background-color:var(--bg-secondary);border-radius:16px;padding:24px;margin-bottom:32px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.search-box{position:relative;margin-bottom:20px}
+.search-box input{width:100%;padding:14px 20px 14px 50px;border:2px solid var(--text-muted);border-radius:12px;background:var(--bg-primary);color:var(--text-primary);font-size:1rem;transition:all .3s ease}
+.search-box input:focus{outline:none;border-color:var(--accent-purple);box-shadow:0 0 20px rgba(124,58,237,.2)}
+.search-box::before{content:'🔍';position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:1.2rem}
+.filter-sort-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.filter-buttons{display:flex;flex-wrap:wrap;gap:10px;flex:1}
+.filter-btn{padding:8px 16px;border:none;border-radius:20px;background:var(--text-muted);color:var(--text-secondary);cursor:pointer;font-size:.9rem;transition:all .3s ease}
+.filter-btn:hover{background:var(--accent-purple);color:white;opacity:.8}
+.filter-btn.active{background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white}
+.sort-select{padding:10px 20px;border:2px solid var(--text-muted);border-radius:12px;background:var(--bg-primary);color:var(--text-primary);font-size:.95rem;cursor:pointer}
+.sort-select:focus{outline:none;border-color:var(--accent-cyan)}
+/* ==================== 加载状态 ==================== */
+.loading{text-align:center;padding:60px 20px;color:var(--text-secondary);font-size:1.1rem}
+.loading-spinner{width:50px;height:50px;border:4px solid var(--text-muted);border-top-color:var(--accent-purple);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ==================== 卡片网格 ==================== */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+/* ==================== 卡片样式 ==================== */
+.card{background:var(--bg-secondary);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .4s cubic-bezier(.175,.885,.32,1.275);opacity:0;transform:translateY(30px);box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.card.visible{opacity:1;transform:translateY(0)}
+.card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 25px 50px rgba(0,0,0,.2),0 0 40px rgba(124,58,237,.15)}
+.card-image-wrapper{position:relative;aspect-ratio:4/5;overflow:hidden}
+.card-image{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .card-image{transform:scale(1.1)}
+.card-image-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--card-overlay);opacity:0;transition:opacity .3s ease}
+.card:hover .card-image-overlay{opacity:1}
+.card-content{padding:20px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.card-title{font-size:1.2rem;font-weight:700;color:var(--text-primary);flex:1;margin-right:10px}
+.card-score{display:flex;align-items:center;gap:4px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;padding:4px 10px;border-radius:12px;font-weight:700;font-size:.9rem;white-space:nowrap}
+.card-meta{display:flex;gap:12px;margin-bottom:12px}
+.card-type{background:rgba(124,58,237,.2);color:var(--accent-purple);padding:4px 10px;border-radius:8px;font-size:.8rem}
+.card-date{color:var(--text-muted);font-size:.85rem}
+.card-desc{color:var(--text-secondary);font-size:.95rem;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-actions{display:flex;gap:16px}
+.action-btn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:8px 0;transition:all .3s ease}
+.action-btn:hover{color:var(--text-primary)}
+.action-btn.liked{color:#EF4444}
+.action-btn.collected{color:var(--accent-cyan)}
+/* ==================== 详情弹窗 ==================== */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--modal-bg);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:all .3s ease;padding:20px}
+.modal-overlay.active{opacity:1;visibility:visible}
+.modal{background:var(--bg-secondary);border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;transform:scale(.9) translateY(20px);transition:all .4s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 25px 50px rgba(0,0,0,.3)}
+.modal-overlay.active .modal{transform:scale(1) translateY(0)}
+.modal-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:var(--text-primary);font-size:1.5rem;cursor:pointer;z-index:10}
+.modal-close:hover{background:var(--accent-purple)}
+.modal-header{position:relative;height:400px}
+.modal-image{width:100%;height:100%;object-fit:cover}
+.modal-gradient{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--bg-secondary),transparent)}
+.modal-content{padding:30px;position:relative;margin-top:-100px}
+.modal-title{font-size:2rem;font-weight:800;margin-bottom:16px;color:var(--text-primary)}
+.modal-meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.modal-meta-item{background:var(--text-muted);padding:6px 14px;border-radius:20px;font-size:.9rem;color:var(--text-primary);opacity:.8}
+.modal-description{color:var(--text-secondary);font-size:1.05rem;line-height:1.8;margin-bottom:30px}
+.modal-actions{display:flex;gap:16px}
+.modal-action-btn{flex:1;padding:14px 24px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s ease}
+.modal-action-btn.primary{background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white}
+.modal-action-btn.secondary{background:var(--text-muted);color:var(--text-primary)}
+/* ==================== 底部 ==================== */
+.footer{text-align:center;padding:40px 20px;color:var(--text-muted);border-top:1px solid var(--text-muted);margin-top:60px}
+/* ==================== 响应式布局 ==================== */
+@media (max-width:768px){
+.banner{height:300px}
+.banner-title{font-size:2rem}
+.filter-sort-row{flex-direction:column;align-items:stretch}
+.sort-select{width:100%}
+.cards-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.modal-header{height:300px}
+.modal-title{font-size:1.5rem}
+}
+@media (max-width:480px){
+.banner{height:250px}
+.banner-title{font-size:1.6rem}
+.cards-grid{grid-template-columns:1fr}
+}
