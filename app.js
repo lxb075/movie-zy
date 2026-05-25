@@ -13,15 +13,75 @@ function toggleTheme(){const themes=['auto','light','dark'];const i=themes.index
 function updateThemeBtn(t){const btn=document.getElementById('themeBtn');const icons={auto:'🌓',light:'☀️',dark:'🌙'};btn.textContent=icons[t];}
 
 // ==================== AI图片生成 ====================
-function generateImageUrl(prompt,ratio){const encodedPrompt=encodeURIComponent(prompt);const imageSize=ratio==='21:9'?'1792x768':'800x1000';return`https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=${encodedPrompt}&image_size=${imageSize}`;}
+function generateImageUrl(prompt,ratio){const encodedPrompt=encodeURIComponent(prompt);const imageSize=ratio==='21:9'?'1792x768':'800x1000';return`https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodedPrompt}&image_size=${imageSize}`;}
 
 // ==================== 初始化图片 ====================
-function initializeImages(){const bannerImg=document.getElementById('bannerImage');bannerImg.src=generateImageUrl('cinematic movie theater dark atmosphere purple neon lights film grain','21:9');bannerImg.onerror=function(){this.style.display='none'};const prompts=['interstellar movie poster epic space science fiction nasa wormhole black hole','demon slayer kimetsu no yaiba tanjiro anime poster dark fantasy','inception movie poster surreal spinning top leonardo dicaprio dream world','attack on titan anime poster eren colossal titan wall maria','kung fu panda dreamworks animation poster po dragon warrior','your name kimi no na wa anime poster makoto shinkai sky comet','spirited away studio ghibli anime poster chihiro haku bathhouse','avengers marvel superhero movie poster iron man captain america','one punch man anime poster saitama serious face','tenet movie poster christopher nolan time inversion red blue','jujutsu kaisen anime poster itadori yuji sukuna','zootopia disney animation poster judy hopps nick wilde'];moviesData.forEach((m,i)=>m.cover=generateImageUrl(prompts[i]||'movie poster','4:5'));}
+function initializeImages(){
+    const bannerImg=document.getElementById('bannerImage');
+    bannerImg.src=generateImageUrl('cinematic movie theater dark atmosphere purple neon lights film grain','21:9');
+    bannerImg.onerror=function(){
+        this.src='https://picsum.photos/1792/768?random=banner';
+        this.onerror=null;
+    };
+    const backupImages=[
+        'https://picsum.photos/seed/interstellar/800/1000',
+        'https://picsum.photos/seed/demonslayer/800/1000',
+        'https://picsum.photos/seed/inception/800/1000',
+        'https://picsum.photos/seed/attackontitan/800/1000',
+        'https://picsum.photos/seed/kungfupanda/800/1000',
+        'https://picsum.photos/seed/yourname/800/1000',
+        'https://picsum.photos/seed/spiritedaway/800/1000',
+        'https://picsum.photos/seed/avengers/800/1000',
+        'https://picsum.photos/seed/onepunch/800/1000',
+        'https://picsum.photos/seed/tenet/800/1000',
+        'https://picsum.photos/seed/jujutsu/800/1000',
+        'https://picsum.photos/seed/zootopia/800/1000'
+    ];
+    const prompts=[
+        'interstellar movie poster epic space science fiction nasa wormhole black hole cinematic',
+        'demon slayer kimetsu no yaiba tanjiro anime poster dark fantasy action',
+        'inception movie poster surreal spinning top leonardo dicaprio dream world',
+        'attack on titan anime poster eren colossal titan wall maria',
+        'kung fu panda dreamworks animation poster po dragon warrior',
+        'your name kimi no na wa anime poster makoto shinkai sky comet',
+        'spirited away studio ghibli anime poster chihiro haku bathhouse',
+        'avengers marvel superhero movie poster iron man captain america',
+        'one punch man anime poster saitama serious face',
+        'tenet movie poster christopher nolan time inversion red blue',
+        'jujutsu kaisen anime poster itadori yuji sukuna',
+        'zootopia disney animation poster judy hopps nick wilde'
+    ];
+    moviesData.forEach((m,i)=>{
+        m.cover=generateImageUrl(prompts[i]||'movie poster','4:5');
+        m.backupCover=backupImages[i];
+    });
+}
 
 // ==================== 渲染卡片 ====================
 function renderCards(){const grid=document.getElementById('cardsGrid');grid.innerHTML='';let data=[...moviesData];if(state.searchQuery)data=data.filter(m=>m.title.toLowerCase().includes(state.searchQuery.toLowerCase()));if(state.currentFilter!=='all')data=data.filter(m=>m.type.includes(state.currentFilter)||m.genre.includes(state.currentFilter));switch(state.currentSort){case'latest':data.sort((a,b)=>new Date(b.date)-new Date(a.date));break;case'popular':data.sort((a,b)=>b.hot-a.hot);break;case'score':data.sort((a,b)=>b.score-a.score);break;}data.forEach((m,i)=>grid.appendChild(createCardElement(m,i)));setTimeout(observeCards,100);}
 
-function createCardElement(movie,index){const card=document.createElement('div');card.className='card';card.style.transitionDelay=`${index*.1}s`;const isLiked=state.likedMovies.includes(movie.id);const isCollected=state.collectedMovies.includes(movie.id);const fallback='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="60" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>');card.innerHTML=`<div class="card-image-wrapper"><img class="card-image" src="${movie.cover}" alt="${movie.title}" loading="lazy"><div class="card-image-overlay"></div></div><div class="card-content"><div class="card-header"><h3 class="card-title">${movie.title}</h3><span class="card-score">⭐ ${movie.score}</span></div><div class="card-meta"><span class="card-type">${movie.type.join(' / ')}</span><span class="card-date">${movie.date}</span></div><p class="card-desc">${movie.desc}</p><div class="card-actions"><button class="action-btn ${isLiked?'liked':''}" onclick="toggleLike(${movie.id},event)">❤️ <span>${formatNumber(movie.like+(isLiked?1:0))}</span></button><button class="action-btn ${isCollected?'collected':''}" onclick="toggleCollect(${movie.id},event)">🔖 <span>${formatNumber(movie.collect+(isCollected?1:0))}</span></button></div></div>`;const img=card.querySelector('.card-image');img.onerror=function(){this.src=fallback};card.addEventListener('click',e=>{if(!e.target.closest('.action-btn'))openModal(movie);});return card;}
+function createCardElement(movie,index){
+    const card=document.createElement('div');
+    card.className='card';
+    card.style.transitionDelay=`${index*.1}s`;
+    const isLiked=state.likedMovies.includes(movie.id);
+    const isCollected=state.collectedMovies.includes(movie.id);
+    const fallback='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="60" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>');
+    card.innerHTML=`<div class="card-image-wrapper"><img class="card-image" src="${movie.cover}" alt="${movie.title}" loading="lazy"><div class="card-image-overlay"></div></div><div class="card-content"><div class="card-header"><h3 class="card-title">${movie.title}</h3><span class="card-score">⭐ ${movie.score}</span></div><div class="card-meta"><span class="card-type">${movie.type.join(' / ')}</span><span class="card-date">${movie.date}</span></div><p class="card-desc">${movie.desc}</p><div class="card-actions"><button class="action-btn ${isLiked?'liked':''}" onclick="toggleLike(${movie.id},event)">❤️ <span>${formatNumber(movie.like+(isLiked?1:0))}</span></button><button class="action-btn ${isCollected?'collected':''}" onclick="toggleCollect(${movie.id},event)">🔖 <span>${formatNumber(movie.collect+(isCollected?1:0))}</span></button></div></div>`;
+    const img=card.querySelector('.card-image');
+    let errorCount=0;
+    img.onerror=function(){
+        errorCount++;
+        if(errorCount===1 && movie.backupCover){
+            this.src=movie.backupCover;
+        }else{
+            this.src=fallback;
+            this.onerror=null;
+        }
+    };
+    card.addEventListener('click',e=>{if(!e.target.closest('.action-btn'))openModal(movie);});
+    return card;
+}
 
 function formatNumber(n){return n>=10000?(n/10000).toFixed(1)+'w':n.toLocaleString();}
 
@@ -33,7 +93,26 @@ function toggleLike(id,e){e.stopPropagation();const i=state.likedMovies.indexOf(
 function toggleCollect(id,e){e.stopPropagation();const i=state.collectedMovies.indexOf(id);i>-1?state.collectedMovies.splice(i,1):state.collectedMovies.push(id);localStorage.setItem('collectedMovies',JSON.stringify(state.collectedMovies));renderCards();}
 
 // ==================== 详情弹窗 ====================
-function openModal(m){const modal=document.getElementById('modalOverlay');const img=document.getElementById('modalImage');img.src=m.cover;img.onerror=function(){this.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="40" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>')};const isLiked=state.likedMovies.includes(m.id);const isCollected=state.collectedMovies.includes(m.id);document.getElementById('modalContent').innerHTML=`<h2 class="modal-title">${m.title}</h2><div class="modal-meta"><span class="modal-meta-item">⭐ ${m.score}分</span><span class="modal-meta-item">${m.type.join(' / ')}</span><span class="modal-meta-item">${m.genre.join(' / ')}</span><span class="modal-meta-item">${m.date}</span></div><p class="modal-description">${m.desc}</p><div class="modal-actions"><button class="modal-action-btn primary" onclick="toggleLikeInModal(${m.id})">❤️ ${isLiked?'已点赞':'点赞'} (${formatNumber(m.like+(isLiked?1:0))})</button><button class="modal-action-btn secondary" onclick="toggleCollectInModal(${m.id})">🔖 ${isCollected?'已收藏':'收藏'} (${formatNumber(m.collect+(isCollected?1:0))})</button></div>`;modal.classList.add('active');document.body.style.overflow='hidden';}
+function openModal(m){
+    const modal=document.getElementById('modalOverlay');
+    const img=document.getElementById('modalImage');
+    img.src=m.cover;
+    let errorCount=0;
+    img.onerror=function(){
+        errorCount++;
+        if(errorCount===1 && m.backupCover){
+            this.src=m.backupCover;
+        }else{
+            this.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="40" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>');
+            this.onerror=null;
+        }
+    };
+    const isLiked=state.likedMovies.includes(m.id);
+    const isCollected=state.collectedMovies.includes(m.id);
+    document.getElementById('modalContent').innerHTML=`<h2 class="modal-title">${m.title}</h2><div class="modal-meta"><span class="modal-meta-item">⭐ ${m.score}分</span><span class="modal-meta-item">${m.type.join(' / ')}</span><span class="modal-meta-item">${m.genre.join(' / ')}</span><span class="modal-meta-item">${m.date}</span></div><p class="modal-description">${m.desc}</p><div class="modal-actions"><button class="modal-action-btn primary" onclick="toggleLikeInModal(${m.id})">❤️ ${isLiked?'已点赞':'点赞'} (${formatNumber(m.like+(isLiked?1:0))})</button><button class="modal-action-btn secondary" onclick="toggleCollectInModal(${m.id})">🔖 ${isCollected?'已收藏':'收藏'} (${formatNumber(m.collect+(isCollected?1:0))})</button></div>`;
+    modal.classList.add('active');
+    document.body.style.overflow='hidden';
+}
 function toggleLikeInModal(id){const i=state.likedMovies.indexOf(id);i>-1?state.likedMovies.splice(i,1):state.likedMovies.push(id);localStorage.setItem('likedMovies',JSON.stringify(state.likedMovies));const movie=moviesData.find(m=>m.id===id);if(movie){openModal(movie);renderCards();}}
 function toggleCollectInModal(id){const i=state.collectedMovies.indexOf(id);i>-1?state.collectedMovies.splice(i,1):state.collectedMovies.push(id);localStorage.setItem('collectedMovies',JSON.stringify(state.collectedMovies));const movie=moviesData.find(m=>m.id===id);if(movie){openModal(movie);renderCards();}}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';}
