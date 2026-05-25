@@ -778,7 +778,7 @@
         function initializeImages() {
             // Banner图片 (21:9)
             const bannerImg = document.getElementById('bannerImage');
-            bannerImg.src = generateImageUrl('cinema movie theater dark atmosphere', '21:9');
+            bannerImg.src = generateImageUrl('cinematic movie theater dark atmosphere purple neon lights film grain', '21:9');
             bannerImg.onerror = function() {
                 this.style.display = 'none';
             };
@@ -786,18 +786,18 @@
             // 卡片图片 (4:5)
             moviesData.forEach((movie, index) => {
                 const prompts = [
-                    'epic space science fiction movie poster',
-                    'anime demon slayer style poster',
-                    'inception movie poster surreal',
-                    'attack on titan anime poster',
-                    'kung fu panda cartoon poster',
-                    'anime your name romantic poster',
-                    'spirited away anime poster',
-                    'avengers superhero movie poster',
-                    'one punch man anime poster',
-                    'tenet movie poster time reversal',
-                    'jujutsu kaisen anime poster',
-                    'zootopia cartoon poster'
+                    'interstellar movie poster epic space science fiction nasa wormhole black hole',
+                    'demon slayer kimetsu no yaiba tanjiro anime poster dark fantasy',
+                    'inception movie poster surreal spinning top leonardo dicaprio dream world',
+                    'attack on titan anime poster eren colossal titan wall maria',
+                    'kung fu panda dreamworks animation poster po dragon warrior',
+                    'your name kimi no na wa anime poster makoto shinkai sky comet',
+                    'spirited away studio ghibli anime poster chihiro haku bathhouse',
+                    'avengers marvel superhero movie poster iron man captain america',
+                    'one punch man anime poster saitama serious face',
+                    'tenet movie poster christopher nolan time inversion red blue',
+                    'jujutsu kaisen anime poster itadori yuji sukuna',
+                    'zootopia disney animation poster judy hopps nick wilde'
                 ];
                 movie.cover = generateImageUrl(prompts[index] || 'movie poster', '4:5');
             });
