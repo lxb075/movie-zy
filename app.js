@@ -12,48 +12,28 @@ function setupAutoTheme(){setInterval(()=>{if(state.theme==='auto')applyTheme();
 function toggleTheme(){const themes=['auto','light','dark'];const i=themes.indexOf(state.theme);state.theme=themes[(i+1)%themes.length];localStorage.setItem('theme',state.theme);applyTheme();}
 function updateThemeBtn(t){const btn=document.getElementById('themeBtn');const icons={auto:'🌓',light:'☀️',dark:'🌙'};btn.textContent=icons[t];}
 
-// ==================== AI图片生成 ====================
-function generateImageUrl(prompt,ratio){const encodedPrompt=encodeURIComponent(prompt);const imageSize=ratio==='21:9'?'1792x768':'800x1000';return`https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodedPrompt}&image_size=${imageSize}`;}
-
 // ==================== 初始化图片 ====================
 function initializeImages(){
     const bannerImg=document.getElementById('bannerImage');
-    bannerImg.src=generateImageUrl('cinematic movie theater dark atmosphere purple neon lights film grain','21:9');
-    bannerImg.onerror=function(){
-        this.src='https://picsum.photos/1792/768?random=banner';
-        this.onerror=null;
-    };
-    const backupImages=[
+    bannerImg.src='https://picsum.photos/1792/768?seed=cinema';
+    
+    const coverImages=[
         'https://picsum.photos/seed/interstellar/800/1000',
         'https://picsum.photos/seed/demonslayer/800/1000',
         'https://picsum.photos/seed/inception/800/1000',
-        'https://picsum.photos/seed/attackontitan/800/1000',
-        'https://picsum.photos/seed/kungfupanda/800/1000',
+        'https://picsum.photos/seed/titan/800/1000',
+        'https://picsum.photos/seed/panda/800/1000',
         'https://picsum.photos/seed/yourname/800/1000',
-        'https://picsum.photos/seed/spiritedaway/800/1000',
+        'https://picsum.photos/seed/chihiro/800/1000',
         'https://picsum.photos/seed/avengers/800/1000',
-        'https://picsum.photos/seed/onepunch/800/1000',
+        'https://picsum.photos/seed/saitama/800/1000',
         'https://picsum.photos/seed/tenet/800/1000',
         'https://picsum.photos/seed/jujutsu/800/1000',
         'https://picsum.photos/seed/zootopia/800/1000'
     ];
-    const prompts=[
-        'interstellar movie poster epic space science fiction nasa wormhole black hole cinematic',
-        'demon slayer kimetsu no yaiba tanjiro anime poster dark fantasy action',
-        'inception movie poster surreal spinning top leonardo dicaprio dream world',
-        'attack on titan anime poster eren colossal titan wall maria',
-        'kung fu panda dreamworks animation poster po dragon warrior',
-        'your name kimi no na wa anime poster makoto shinkai sky comet',
-        'spirited away studio ghibli anime poster chihiro haku bathhouse',
-        'avengers marvel superhero movie poster iron man captain america',
-        'one punch man anime poster saitama serious face',
-        'tenet movie poster christopher nolan time inversion red blue',
-        'jujutsu kaisen anime poster itadori yuji sukuna',
-        'zootopia disney animation poster judy hopps nick wilde'
-    ];
     moviesData.forEach((m,i)=>{
-        m.cover=generateImageUrl(prompts[i]||'movie poster','4:5');
-        m.backupCover=backupImages[i];
+        m.cover=coverImages[i];
+        m.backupCover=coverImages[i];
     });
 }
 
