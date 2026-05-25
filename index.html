@@ -3,222 +3,1059 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎬 我的私藏影单</title>
+    <title>🎬 影视推荐墙</title>
     <style>
-        /* 全局重置 */
+        /* ==================== 全局重置与基础样式 ==================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* 基础样式 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #1a1a2e;
+            background-color: #0A0C10;
             color: #ffffff;
             min-height: 100vh;
+            line-height: 1.6;
         }
 
-        /* 顶部横幅区 */
+        /* ==================== 颜色变量 ==================== */
+        :root {
+            --bg-primary: #0A0C10;
+            --bg-secondary: #12161F;
+            --accent-purple: #7C3AED;
+            --accent-cyan: #06B6D4;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ==================== Banner区域 ==================== */
         .banner {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            padding: 60px 20px;
-            text-align: center;
             position: relative;
+            height: 400px;
             overflow: hidden;
+            background: linear-gradient(135deg, #0A0C10 0%, #12161F 100%);
         }
 
-        .banner::before {
-            content: '';
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        .banner-overlay {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(255, 200, 150, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .banner::after {
-            content: '';
-            position: absolute;
-            bottom: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 70% 80%, rgba(150, 180, 255, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .banner h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(255, 200, 150, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .banner p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.7);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* 推荐网格区域 */
-        .recommendations {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, #0A0C10 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 40px 20px;
+        }
+
+        .banner-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+            z-index: 1;
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            z-index: 1;
+        }
+
+        /* ==================== 主容器 ==================== */
+        .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 24px;
-        }
-
-        /* 卡片样式 */
-        .card {
-            background: rgba(255, 200, 150, 0.08);
-            border: 1px solid rgba(255, 200, 150, 0.2);
-            border-radius: 12px;
+        /* ==================== 搜索与筛选区域 ==================== */
+        .controls {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
             padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
             transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        .filter-sort-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(124, 58, 237, 0.3);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            color: white;
+        }
+
+        .sort-select {
+            padding: 10px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 0.95rem;
             cursor: pointer;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 200, 150, 0.12);
-            border-color: rgba(255, 200, 150, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 200, 150, 0.1);
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
         }
 
-        .card-emoji {
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-            display: block;
+        /* ==================== 加载状态 ==================== */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==================== 卡片网格 ==================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* ==================== 卡片样式 ==================== */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(124, 58, 237, 0.15);
+        }
+
+        .card-image-wrapper {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(10, 12, 16, 0.9) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .card-image-overlay {
+            opacity: 1;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
         .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .card-score {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 12px;
             margin-bottom: 12px;
-            color: #ffd9b3;
+        }
+
+        .card-type {
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--accent-purple);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .card-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
 
         .card-desc {
+            color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        /* 底部版权区 */
+        .card-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: white;
+        }
+
+        .action-btn.liked {
+            color: #EF4444;
+        }
+
+        .action-btn.collected {
+            color: var(--accent-cyan);
+        }
+
+        /* ==================== 详情弹窗 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-purple);
+        }
+
+        .modal-header {
+            position: relative;
+            height: 400px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, var(--bg-secondary), transparent);
+        }
+
+        .modal-content {
+            padding: 30px;
+            position: relative;
+            margin-top: -100px;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .modal-meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .modal-description {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .modal-action-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action-btn.primary {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            color: white;
+        }
+
+        .modal-action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* ==================== 底部 ==================== */
         .footer {
             text-align: center;
-            padding: 30px 20px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
+            padding: 40px 20px;
+            color: var(--text-muted);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
         }
 
-        /* 响应式断点 */
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .banner h1 {
-                font-size: 3rem;
-            }
-
-            .card-emoji {
-                font-size: 4rem;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .banner h1 {
-                font-size: 3.5rem;
-            }
-
+        /* ==================== 响应式布局 ==================== */
+        @media (max-width: 768px) {
             .banner {
-                padding: 80px 20px;
+                height: 300px;
+            }
+
+            .banner-title {
+                font-size: 2rem;
+            }
+
+            .filter-sort-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+
+            .modal-header {
+                height: 300px;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
             }
         }
 
-        /* 暗色模式优化 */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #0f0f1a;
+        @media (max-width: 480px) {
+            .banner {
+                height: 250px;
+            }
+
+            .banner-title {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 顶部横幅区 -->
+    <!-- Banner区域 -->
     <header class="banner">
-        <h1>🎬 我的私藏影单</h1>
-        <p>精选电影与动漫，陪你度过每一个美好时光</p>
+        <img class="banner-image" id="bannerImage" src="" alt="Banner">
+        <div class="banner-overlay">
+            <h1 class="banner-title">🎬 影视推荐墙</h1>
+            <p class="banner-subtitle">发现精彩，分享感动</p>
+        </div>
     </header>
 
-    <!-- 推荐网格区域 -->
-    <main class="recommendations">
-        <div class="grid">
-            <!-- 卡片1：千与千寻 -->
-            <article class="card">
-                <span class="card-emoji">🏯</span>
-                <h2 class="card-title">千与千寻</h2>
-                <p class="card-desc">成长就是一场不回头的地下铁之旅，每一次相遇都是命运的馈赠。</p>
-            </article>
-
-            <!-- 卡片2：星际穿越 -->
-            <article class="card">
-                <span class="card-emoji">🚀</span>
-                <h2 class="card-title">星际穿越</h2>
-                <p class="card-desc">爱是唯一能穿越维度的力量，时间可以伸缩，但父女之爱永恒。</p>
-            </article>
-
-            <!-- 卡片3：鬼灭之刃 -->
-            <article class="card">
-                <span class="card-emoji">⚔️</span>
-                <h2 class="card-title">鬼灭之刃</h2>
-                <p class="card-desc">为了保护该保护的人，炭治郎从不退缩，水之呼吸斩断一切绝望。</p>
-            </article>
-
-            <!-- 卡片4：你的名字 -->
-            <article class="card">
-                <span class="card-emoji">🌠</span>
-                <h2 class="card-title">你的名字</h2>
-                <p class="card-desc">跨越时空的绳结，把两个素未谋面的灵魂紧紧连在一起。</p>
-            </article>
-
-            <!-- 卡片5：寻梦环游记 -->
-            <article class="card">
-                <span class="card-emoji">💀</span>
-                <h2 class="card-title">寻梦环游记</h2>
-                <p class="card-desc">真正的死亡是世界上再没有一个人记得你，请记住我，亲爱的家人。</p>
-            </article>
-
-            <!-- 卡片6：咒术回战 -->
-            <article class="card">
-                <span class="card-emoji">👊</span>
-                <h2 class="card-title">咒术回战</h2>
-                <p class="card-desc">为了追求正确的死亡，少年们投身于永无止境的咒术战斗。</p>
-            </article>
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 搜索与筛选 -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索电影或动漫...">
+            </div>
+            <div class="filter-sort-row">
+                <div class="filter-buttons" id="filterButtons">
+                    <button class="filter-btn active" data-filter="all">全部</button>
+                    <button class="filter-btn" data-filter="电影">电影</button>
+                    <button class="filter-btn" data-filter="动漫">动漫</button>
+                    <button class="filter-btn" data-filter="动作">动作</button>
+                    <button class="filter-btn" data-filter="喜剧">喜剧</button>
+                    <button class="filter-btn" data-filter="科幻">科幻</button>
+                    <button class="filter-btn" data-filter="悬疑">悬疑</button>
+                </div>
+                <select class="sort-select" id="sortSelect">
+                    <option value="latest">按最新</option>
+                    <option value="popular">按热度</option>
+                    <option value="score">按评分</option>
+                </select>
+            </div>
         </div>
-    </main>
 
-    <!-- 底部版权区 -->
+        <!-- 加载状态 -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>加载中...</p>
+        </div>
+
+        <!-- 卡片网格 -->
+        <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">×</button>
+            <div class="modal-header">
+                <img class="modal-image" id="modalImage" src="" alt="">
+                <div class="modal-gradient"></div>
+            </div>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
     <footer class="footer">
-        <p>© 2025 我的推荐 · 仅供个人学习</p>
+        <p>© 2025 影视推荐墙 · 精选优质内容</p>
     </footer>
+
+    <script>
+        // ==================== 数据定义 ====================
+        const moviesData = [
+            {
+                id: 1,
+                title: '星际穿越',
+                cover: '',
+                type: ['电影'],
+                genre: ['科幻', '冒险'],
+                score: 9.4,
+                desc: '在地球面临生存危机之际，一群勇敢的探险家利用新发现的虫洞，超越人类太空旅行的极限，在广袤的宇宙中展开星际航行。',
+                date: '2014-11-07',
+                like: 12890,
+                collect: 8560,
+                hot: 9500
+            },
+            {
+                id: 2,
+                title: '鬼灭之刃',
+                cover: '',
+                type: ['动漫'],
+                genre: ['动作', '奇幻'],
+                score: 9.1,
+                desc: '为了拯救被鬼杀死的家人，以及让变成鬼的妹妹禰豆子变回人类，炭治郎成为了鬼杀队的一员，展开了战斗。',
+                date: '2019-04-06',
+                like: 18560,
+                collect: 12340,
+                hot: 9800
+            },
+            {
+                id: 3,
+                title: '盗梦空间',
+                cover: '',
+                type: ['电影'],
+                genre: ['科幻', '悬疑'],
+                score: 9.3,
+                desc: '道姆·柯布是一位经验老道的窃贼，他在这一行业中算得上是最厉害的，因为他能够潜入人们精神最为脆弱的梦境中，窃取潜意识中有价值的秘密。',
+                date: '2010-09-01',
+                like: 15670,
+                collect: 9870,
+                hot: 9200
+            },
+            {
+                id: 4,
+                title: '进击的巨人',
+                cover: '',
+                type: ['动漫'],
+                genre: ['动作', '悬疑'],
+                score: 9.0,
+                desc: '为了躲避巨人的攻击而逃往内地，人类建造了三重巨大的城墙，艾伦耶格尔在亲眼目睹母亲被巨人吞噬后，立誓要消灭所有的巨人。',
+                date: '2013-04-07',
+                like: 21340,
+                collect: 15670,
+                hot: 9900
+            },
+            {
+                id: 5,
+                title: '功夫熊猫',
+                cover: '',
+                type: ['电影'],
+                genre: ['喜剧', '动作'],
+                score: 8.6,
+                desc: '笨拙的熊猫阿宝在机缘巧合下被选为神龙大侠，与盖世五侠一起保卫和平谷，对抗邪恶的太郎。',
+                date: '2008-06-20',
+                like: 9870,
+                collect: 6540,
+                hot: 8500
+            },
+            {
+                id: 6,
+                title: '你的名字',
+                cover: '',
+                type: ['动漫'],
+                genre: ['爱情', '奇幻'],
+                score: 8.8,
+                desc: '在日本的某个乡下小镇的高中女生三叶，每天过着忧郁的生活，而她的梦想则是能够成为东京的帅哥。',
+                date: '2016-08-26',
+                like: 16780,
+                collect: 11230,
+                hot: 9000
+            },
+            {
+                id: 7,
+                title: '千与千寻',
+                cover: '',
+                type: ['动漫'],
+                genre: ['奇幻', '冒险'],
+                score: 9.2,
+                desc: '10岁的少女千寻与父母一起从城里搬到乡下，途中误入一个神灵的世界，她的父母因贪吃变成了猪。',
+                date: '2001-07-20',
+                like: 23450,
+                collect: 17890,
+                hot: 9700
+            },
+            {
+                id: 8,
+                title: '复仇者联盟',
+                cover: '',
+                type: ['电影'],
+                genre: ['动作', '科幻'],
+                score: 8.4,
+                desc: '地球面临前所未有的威胁，神盾局召集了一群非凡的英雄，共同抵御邪恶势力的入侵。',
+                date: '2012-05-04',
+                like: 14560,
+                collect: 8900,
+                hot: 8800
+            },
+            {
+                id: 9,
+                title: '一拳超人',
+                cover: '',
+                type: ['动漫'],
+                genre: ['动作', '喜剧'],
+                score: 8.9,
+                desc: '埼玉是一个拥有无敌力量的英雄，他可以一拳击败任何敌人，但也因此失去了战斗的激情。',
+                date: '2015-10-04',
+                like: 17890,
+                collect: 12450,
+                hot: 9100
+            },
+            {
+                id: 10,
+                title: '信条',
+                cover: '',
+                type: ['电影'],
+                genre: ['科幻', '悬疑'],
+                score: 8.0,
+                desc: '主角在俄罗斯寡头萨托尔从未来得到了一种能够逆转时间的技术，企图毁灭世界。',
+                date: '2020-09-03',
+                like: 8760,
+                collect: 5430,
+                hot: 7900
+            },
+            {
+                id: 11,
+                title: '咒术回战',
+                cover: '',
+                genre: ['动作', '奇幻'],
+                type: ['动漫'],
+                score: 8.7,
+                desc: '高中生虎杖悠仁吞下了诅咒之王两面宿傩的手指，从此卷入了咒术师的世界。',
+                date: '2020-10-02',
+                like: 19870,
+                collect: 14560,
+                hot: 9400
+            },
+            {
+                id: 12,
+                title: '疯狂动物城',
+                cover: '',
+                type: ['电影'],
+                genre: ['喜剧', '悬疑'],
+                score: 9.0,
+                desc: '在一个所有动物和平共处的城市里，兔子警官朱迪与狐狸尼克联手调查一起神秘案件。',
+                date: '2016-03-04',
+                like: 13450,
+                collect: 8760,
+                hot: 8600
+            }
+        ];
+
+        // ==================== 状态管理 ====================
+        let state = {
+            currentFilter: 'all',
+            currentSort: 'latest',
+            searchQuery: '',
+            likedMovies: JSON.parse(localStorage.getItem('likedMovies') || '[]'),
+            collectedMovies: JSON.parse(localStorage.getItem('collectedMovies') || '[]')
+        };
+
+        // ==================== AI图片生成 ====================
+        function generateImageUrl(prompt, ratio) {
+            const encodedPrompt = encodeURIComponent(prompt);
+            let imageSize = ratio === '21:9' ? '1792x768' : '800x1000';
+            return `https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=${encodedPrompt}&image_size=${imageSize}`;
+        }
+
+        // ==================== 初始化图片 ====================
+        function initializeImages() {
+            // Banner图片 (21:9)
+            const bannerImg = document.getElementById('bannerImage');
+            bannerImg.src = generateImageUrl('cinema movie theater dark atmosphere', '21:9');
+            bannerImg.onerror = function() {
+                this.style.display = 'none';
+            };
+            
+            // 卡片图片 (4:5)
+            moviesData.forEach((movie, index) => {
+                const prompts = [
+                    'epic space science fiction movie poster',
+                    'anime demon slayer style poster',
+                    'inception movie poster surreal',
+                    'attack on titan anime poster',
+                    'kung fu panda cartoon poster',
+                    'anime your name romantic poster',
+                    'spirited away anime poster',
+                    'avengers superhero movie poster',
+                    'one punch man anime poster',
+                    'tenet movie poster time reversal',
+                    'jujutsu kaisen anime poster',
+                    'zootopia cartoon poster'
+                ];
+                movie.cover = generateImageUrl(prompts[index] || 'movie poster', '4:5');
+            });
+        }
+
+        // ==================== 渲染卡片 ====================
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+            
+            let filteredData = [...moviesData];
+
+            // 搜索过滤
+            if (state.searchQuery) {
+                filteredData = filteredData.filter(movie => 
+                    movie.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+                );
+            }
+
+            // 分类过滤
+            if (state.currentFilter !== 'all') {
+                filteredData = filteredData.filter(movie => 
+                    movie.type.includes(state.currentFilter) || 
+                    movie.genre.includes(state.currentFilter)
+                );
+            }
+
+            // 排序
+            switch (state.currentSort) {
+                case 'latest':
+                    filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'popular':
+                    filteredData.sort((a, b) => b.hot - a.hot);
+                    break;
+                case 'score':
+                    filteredData.sort((a, b) => b.score - a.score);
+                    break;
+            }
+
+            filteredData.forEach((movie, index) => {
+                const card = createCardElement(movie, index);
+                grid.appendChild(card);
+            });
+
+            // 触发动画
+            setTimeout(() => observeCards(), 100);
+        }
+
+        function createCardElement(movie, index) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.transitionDelay = `${index * 0.1}s`;
+            
+            const isLiked = state.likedMovies.includes(movie.id);
+            const isCollected = state.collectedMovies.includes(movie.id);
+            
+            const fallbackImage = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="60" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>');
+            
+            const cardHTML = `
+                <div class="card-image-wrapper">
+                    <img class="card-image" src="${movie.cover}" alt="${movie.title}" loading="lazy">
+                    <div class="card-image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <h3 class="card-title">${movie.title}</h3>
+                        <span class="card-score">⭐ ${movie.score}</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="card-type">${movie.type.join(' / ')}</span>
+                        <span class="card-date">${movie.date}</span>
+                    </div>
+                    <p class="card-desc">${movie.desc}</p>
+                    <div class="card-actions">
+                        <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike(${movie.id}, event)">
+                            ❤️ <span>${formatNumber(movie.like + (isLiked ? 1 : 0))}</span>
+                        </button>
+                        <button class="action-btn ${isCollected ? 'collected' : ''}" onclick="toggleCollect(${movie.id}, event)">
+                            🔖 <span>${formatNumber(movie.collect + (isCollected ? 1 : 0))}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            card.innerHTML = cardHTML;
+            
+            const img = card.querySelector('.card-image');
+            img.onerror = function() {
+                this.src = fallbackImage;
+            };
+            
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.action-btn')) {
+                    openModal(movie);
+                }
+            });
+            
+            return card;
+        }
+
+        function formatNumber(num) {
+            if (num >= 10000) {
+                return (num / 10000).toFixed(1) + 'w';
+            }
+            return num.toLocaleString();
+        }
+
+        // ==================== 滚动动画 ====================
+        function observeCards() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => observer.observe(card));
+        }
+
+        // ==================== 点赞收藏 ====================
+        function toggleLike(id, event) {
+            event.stopPropagation();
+            const index = state.likedMovies.indexOf(id);
+            if (index > -1) {
+                state.likedMovies.splice(index, 1);
+            } else {
+                state.likedMovies.push(id);
+            }
+            localStorage.setItem('likedMovies', JSON.stringify(state.likedMovies));
+            renderCards();
+        }
+
+        function toggleCollect(id, event) {
+            event.stopPropagation();
+            const index = state.collectedMovies.indexOf(id);
+            if (index > -1) {
+                state.collectedMovies.splice(index, 1);
+            } else {
+                state.collectedMovies.push(id);
+            }
+            localStorage.setItem('collectedMovies', JSON.stringify(state.collectedMovies));
+            renderCards();
+        }
+
+        // ==================== 详情弹窗 ====================
+        function openModal(movie) {
+            const modal = document.getElementById('modalOverlay');
+            document.getElementById('modalImage').src = movie.cover;
+            document.getElementById('modalImage').onerror = function() {
+                this.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="#12161F" width="400" height="500"/><text x="50%" y="50%" fill="#94A3B8" font-size="40" text-anchor="middle" dominant-baseline="middle">🎬</text></svg>');
+            };
+            
+            const isLiked = state.likedMovies.includes(movie.id);
+            const isCollected = state.collectedMovies.includes(movie.id);
+            
+            document.getElementById('modalContent').innerHTML = `
+                <h2 class="modal-title">${movie.title}</h2>
+                <div class="modal-meta">
+                    <span class="modal-meta-item">⭐ ${movie.score}分</span>
+                    <span class="modal-meta-item">${movie.type.join(' / ')}</span>
+                    <span class="modal-meta-item">${movie.genre.join(' / ')}</span>
+                    <span class="modal-meta-item">${movie.date}</span>
+                </div>
+                <p class="modal-description">${movie.desc}</p>
+                <div class="modal-actions">
+                    <button class="modal-action-btn primary" onclick="toggleLikeInModal(${movie.id})">
+                    ❤️ ${isLiked ? '已点赞' : '点赞'} (${formatNumber(movie.like + (isLiked ? 1 : 0))})
+                    </button>
+                    <button class="modal-action-btn secondary" onclick="toggleCollectInModal(${movie.id})">
+                    🔖 ${isCollected ? '已收藏' : '收藏'} (${formatNumber(movie.collect + (isCollected ? 1 : 0))})
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function toggleLikeInModal(id) {
+            const index = state.likedMovies.indexOf(id);
+            if (index > -1) {
+                state.likedMovies.splice(index, 1);
+            } else {
+                state.likedMovies.push(id);
+            }
+            localStorage.setItem('likedMovies', JSON.stringify(state.likedMovies));
+            const movie = moviesData.find(m => m.id === id);
+            if (movie) {
+                openModal(movie);
+                renderCards();
+            }
+        }
+
+        function toggleCollectInModal(id) {
+            const index = state.collectedMovies.indexOf(id);
+            if (index > -1) {
+                state.collectedMovies.splice(index, 1);
+            } else {
+                state.collectedMovies.push(id);
+            }
+            localStorage.setItem('collectedMovies', JSON.stringify(state.collectedMovies));
+            const movie = moviesData.find(m => m.id === id);
+            if (movie) {
+                openModal(movie);
+                renderCards();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ==================== 事件监听 ====================
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            renderCards();
+        });
+
+        document.getElementById('filterButtons').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                state.currentFilter = e.target.dataset.filter;
+                renderCards();
+            }
+        });
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            state.currentSort = e.target.value;
+            renderCards();
+        });
+
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'modalOverlay') closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ==================== 初始化 ====================
+        function init() {
+            initializeImages();
+            
+            // 模拟加载
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                renderCards();
+            }, 1000);
+        }
+
+        // 启动
+        init();
+    </script>
 </body>
 </html>
