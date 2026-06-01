@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/movie-zy/">
-    <title>🎬 影视推荐墙</title>
+    <title>影视推荐墙</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- 页面进度条 -->
     <div class="progress-bar" id="progressBar"></div>
-
-    <!-- Banner区域 -->
     <header class="banner">
         <img class="banner-image" id="bannerImage" src="" alt="Banner">
         <div class="theme-toggle">
-            <button class="theme-btn" id="themeBtn">🌓</button>
+            <button class="theme-btn" id="themeBtn"></button>
         </div>
         <div class="banner-overlay">
-            <h1 class="banner-title">🎬 影视推荐墙</h1>
+            <h1 class="banner-title"> 影视推荐墙</h1>
             <p class="banner-subtitle">发现精彩，分享感动</p>
         </div>
     </header>
-
-    <!-- 主容器 -->
     <div class="container">
-        <!-- 搜索与筛选 -->
         <div class="controls">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="搜索电影或动漫...">
@@ -47,18 +41,12 @@
                 </select>
             </div>
         </div>
-
-        <!-- 加载状态 -->
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
             <p>加载中...</p>
         </div>
-
-        <!-- 卡片网格 -->
         <div class="cards-grid" id="cardsGrid"></div>
     </div>
-
-    <!-- 详情弹窗 -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <button class="modal-close" id="modalClose">×</button>
@@ -69,8 +57,6 @@
             <div class="modal-content" id="modalContent"></div>
         </div>
     </div>
-
-    <!-- Lightbox图片查看器 -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightboxClose">×</button>
         <button class="lightbox-nav prev" id="lightboxPrev">‹</button>
@@ -81,11 +67,9 @@
             <div class="lightbox-counter" id="lightboxCounter"></div>
         </div>
     </div>
-
-    <!-- 留言板区域 -->
     <section class="guestbook-section" id="guestbook">
         <div class="guestbook-container">
-            <h2 class="guestbook-title">💬 留言板</h2>
+            <h2 class="guestbook-title"> 留言板</h2>
             <p class="guestbook-desc">有任何建议或想推荐的影视？在这里留言吧！</p>
             <div class="guestbook-form">
                 <input type="text" id="guestbookInput" placeholder="写下你的留言..." maxlength="200">
@@ -94,20 +78,15 @@
             <div class="guestbook-list" id="guestbookList"></div>
         </div>
     </section>
-
-    <!-- 底部 -->
     <footer class="footer">
-        <p>© 2025 影视推荐墙 · 精选优质内容</p>
+        <p> 2025 影视推荐墙 · 精选优质内容</p>
         <p style="margin-top: 10px;">
-            <a href="about.html" class="footer-link">👤 关于站长</a>
+            <a href="about.html" class="footer-link"> 关于站长</a>
             <span style="margin: 0 10px;">|</span>
-            <a href="#guestbook" class="footer-link">💬 留言板</a>
+            <a href="#guestbook" class="footer-link"> 留言板</a>
         </p>
     </footer>
-
-    <!-- 返回顶部按钮 -->
     <button class="back-to-top" id="backToTop">↑</button>
-
     <script src="app.js"></script>
 </body>
 </html>
