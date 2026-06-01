@@ -49,6 +49,8 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .card:hover .card-image{transform:scale(1.1)}
 .card-image-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--card-overlay);opacity:0;transition:opacity .3s ease}
 .card:hover .card-image-overlay{opacity:1}
+.card-play-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.7);color:white;padding:12px 24px;border-radius:30px;font-size:1rem;font-weight:600;opacity:0;transition:all .3s ease;display:flex;align-items:center;gap:8px;pointer-events:none}
+.card:hover .card-play-overlay{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
 .card-content{padding:20px}
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .card-title{font-size:1.2rem;font-weight:700;color:var(--text-primary);flex:1;margin-right:10px}
@@ -63,6 +65,8 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .action-btn:hover{color:var(--text-primary)}
 .action-btn.liked{color:#EF4444}
 .action-btn.collected{color:var(--accent-cyan)}
+.action-btn.play-btn{color:#10B981}
+.action-btn.play-btn:hover{color:#059669}
 /* ==================== 星级评分 ==================== */
 .stars{display:inline-flex;gap:2px}
 .star{color:#ccc;font-size:1.2rem;transition:all .2s ease}
@@ -92,6 +96,8 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .modal-action-btn{flex:1;padding:14px 24px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s ease}
 .modal-action-btn.primary{background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white}
 .modal-action-btn.secondary{background:var(--text-muted);color:var(--text-primary)}
+.modal-action-btn.play-primary{background:linear-gradient(135deg,#10B981,#059669);color:white;text-decoration:none;text-align:center}
+.modal-action-btn.play-primary:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(16,185,129,.3)}
 /* ==================== 评论区 ==================== */
 .modal-comments{margin-top:20px;padding-top:20px;border-top:1px solid var(--text-muted)}
 .modal-comments h3{font-size:1.1rem;color:var(--text-primary);margin-bottom:16px}
