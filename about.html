@@ -6,202 +6,70 @@
     <title>关于站长 - 影视推荐墙</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .about-page {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .about-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .about-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--accent-purple);
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
-            margin-bottom: 20px;
-        }
-        .about-name {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .about-title {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-        }
-        .about-section {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        .about-section h2 {
-            font-size: 1.4rem;
-            color: var(--accent-purple);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .about-intro {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .skill-tag {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2));
-            color: var(--text-primary);
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            transition: all 0.3s ease;
-        }
-        .skill-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
-        }
-        .project-item {
-            padding: 20px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border-left: 4px solid var(--accent-purple);
-        }
-        .project-item:last-child {
-            margin-bottom: 0;
-        }
-        .project-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-        .project-item p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        .contact-list {
-            display: grid;
-            gap: 16px;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-        .contact-item:hover {
-            transform: translateX(5px);
-        }
-        .contact-icon {
-            font-size: 1.5rem;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            border-radius: 50%;
-        }
-        .contact-info {
-            flex: 1;
-        }
-        .contact-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        .contact-value {
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--accent-purple);
-            border-radius: 12px;
-            color: var(--accent-purple);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 30px;
-        }
-        .back-btn:hover {
-            background: var(--accent-purple);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent-purple);
-            margin-bottom: 5px;
-        }
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-        @media (max-width: 768px) {
-            .about-name {
-                font-size: 2rem;
-            }
-            .about-avatar {
-                width: 120px;
-                height: 120px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+        .about-page { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .about-header { text-align: center; margin-bottom: 50px; }
+        .about-avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-purple); box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3); margin-bottom: 20px; }
+        .about-name { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .about-title { font-size: 1.2rem; color: var(--text-secondary); }
+        .about-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-top: 8px; }
+        .about-section { background: var(--bg-secondary); border-radius: 16px; padding: 30px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
+        .about-section h2 { font-size: 1.4rem; color: var(--accent-purple); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .about-intro { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; }
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+        .skill-tag { background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2)); color: var(--text-primary); padding: 10px 20px; border-radius: 25px; font-size: 0.95rem; border: 1px solid rgba(124, 58, 237, 0.3); transition: all 0.3s ease; }
+        .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3); }
+        .project-item { padding: 20px; background: var(--bg-primary); border-radius: 12px; margin-bottom: 16px; border-left: 4px solid var(--accent-purple); }
+        .project-item:last-child { margin-bottom: 0; }
+        .project-item h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text-primary); }
+        .project-item p { color: var(--text-secondary); font-size: 0.95rem; }
+        .contact-list { display: grid; gap: 16px; }
+        .contact-item { display: flex; align-items: center; gap: 15px; padding: 16px; background: var(--bg-primary); border-radius: 12px; transition: all 0.3s ease; }
+        .contact-item:hover { transform: translateX(5px); }
+        .contact-icon { font-size: 1.5rem; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan)); border-radius: 50%; }
+        .contact-info { flex: 1; }
+        .contact-label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
+        .contact-value { color: var(--text-primary); font-size: 1rem; }
+        .contact-value a { color: var(--accent-cyan); text-decoration: none; }
+        .contact-value a:hover { text-decoration: underline; }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--bg-secondary); border: 2px solid var(--accent-purple); border-radius: 12px; color: var(--accent-purple); text-decoration: none; font-weight: 600; transition: all 0.3s ease; margin-bottom: 30px; }
+        .back-btn:hover { background: var(--accent-purple); color: white; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px; }
+        .stat-item { text-align: center; padding: 20px; background: var(--bg-primary); border-radius: 12px; }
+        .stat-number { font-size: 2rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 5px; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
+        .edu-item { padding: 16px; background: var(--bg-primary); border-radius: 12px; margin-bottom: 12px; }
+        .edu-item:last-child { margin-bottom: 0; }
+        .edu-item h3 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 4px; }
+        .edu-item .edu-detail { color: var(--accent-cyan); font-size: 0.95rem; }
+        .edu-item .edu-time { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+        .work-item { padding: 20px; background: var(--bg-primary); border-radius: 12px; margin-bottom: 16px; border-left: 4px solid var(--accent-cyan); }
+        .work-item:last-child { margin-bottom: 0; }
+        .work-item h3 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 4px; }
+        .work-item .work-detail { color: var(--accent-cyan); font-size: 0.95rem; }
+        .work-item .work-time { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+        .work-item .work-desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 8px; line-height: 1.6; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+        .info-tag { padding: 10px 16px; background: var(--bg-primary); border-radius: 10px; text-align: center; }
+        .info-tag .info-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+        .info-tag .info-value { font-size: 1rem; color: var(--text-primary); font-weight: 600; }
+        @media (max-width: 768px) { .about-name { font-size: 2rem; } .about-avatar { width: 120px; height: 120px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
     <div class="about-page">
         <a href="index.html" class="back-btn">← 返回首页</a>
-        
+
         <div class="about-header">
-            <img class="about-avatar" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=anime%20style%20avatar%20young%20developer%20glasses%20friendly%20smile&image_size=square" alt="站长头像" onerror="this.src='https://via.placeholder.com/150/7C3AED/FFFFFF?text=站长'">
-            <h1 class="about-name">小明同学</h1>
-            <p class="about-title">前端开发爱好者 · 影视迷</p>
+            <img class="about-avatar" src="https://picsum.photos/seed/cxk-dev/300/300" alt="站长头像" onerror="this.src='https://via.placeholder.com/150/7C3AED/FFFFFF?text=cxk'">
+            <h1 class="about-name">cxk</h1>
+            <p class="about-title">移动端开发 · 全栈开发爱好者</p>
+            <p class="about-subtitle">应届毕业生 | 深圳 | 100k</p>
         </div>
 
         <div class="about-section">
             <h2>👤 个人简介</h2>
             <p class="about-intro">
-                你好！我是影视推荐墙的站长，一个热爱电影和动漫的普通学生。平时喜欢收集好看的影视作品，也喜欢探索新技术。这个网站是我学习前端开发的实战项目，希望能帮助大家发现更多精彩的影视内容。如果你也有好看的推荐，欢迎给我留言！
+                你好！我是 cxk，一名计算机科学与技术专业的应届毕业生。我热爱编程和影视，这个影视推荐墙是我学习前端开发的实战项目。平时喜欢探索新技术，研究移动端开发和全栈技术栈。如果你也有好看的影视推荐，欢迎给我留言！
             </p>
             <div class="stats-grid">
                 <div class="stat-item">
@@ -224,68 +92,93 @@
         </div>
 
         <div class="about-section">
-            <h2>💡 技能标签</h2>
+            <h2> 教育经历</h2>
+            <div class="edu-item">
+                <h3>老鱼大学</h3>
+                <div class="edu-detail">计算机科学与技术 · 本科</div>
+                <div class="edu-time">2020-09 ~ 2024-07 · 全日制</div>
+            </div>
+            <div class="edu-item">
+                <h3>福州软件职业技术学院</h3>
+                <div class="edu-detail">福州校区</div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>💡 专业技能</h2>
             <div class="skills-grid">
                 <span class="skill-tag">HTML5</span>
                 <span class="skill-tag">CSS3</span>
                 <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">移动端开发</span>
+                <span class="skill-tag">全栈开发</span>
+                <span class="skill-tag">前端开发</span>
                 <span class="skill-tag">Vue.js</span>
                 <span class="skill-tag">React</span>
                 <span class="skill-tag">Git</span>
                 <span class="skill-tag">GitHub Pages</span>
                 <span class="skill-tag">AI辅助开发</span>
                 <span class="skill-tag">响应式设计</span>
-                <span class="skill-tag">本地存储</span>
-                <span class="skill-tag">Web动效</span>
-                <span class="skill-tag">图片懒加载</span>
             </div>
         </div>
 
         <div class="about-section">
-            <h2>🚀 本项目介绍</h2>
+            <h2> 工作/实习经历</h2>
+            <div class="work-item">
+                <h3>软件保安有限公司</h3>
+                <div class="work-detail">全栈开发保安 · 杭州</div>
+                <div class="work-time">2023-02 ~ 2023-04</div>
+                <div class="work-desc">负责软件安全保障与全栈开发工作，参与业务部核心项目。</div>
+            </div>
+            <div class="work-item">
+                <h3>扑扑超市</h3>
+                <div class="work-detail">营业 · 分拣 · 纽约</div>
+                <div class="work-time">2026-06</div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>🚀 项目经历</h2>
             <div class="project-item">
                 <h3>🎬 影视推荐墙</h3>
-                <p>一个纯前端开发的影视推荐展示网站，支持电影和动漫分类浏览、搜索筛选、点赞收藏、评分评价、留言互动等功能。采用现代暗色主题设计，支持亮色/暗色模式切换，完全响应式布局，可在手机和电脑上流畅访问。</p>
-            </div>
-            <div class="project-item">
-                <h3>✨ 核心功能</h3>
-                <p>• 多种筛选方式（类型、类型） · 点赞和收藏功能 · 评分评价系统 · 留言板互动 · 图片放大查看 · 返回顶部导航 · 主题切换 · 响应式适配</p>
+                <p>2023-12 ~ 2024-03 · 前端开发 · 杭州</p>
+                <p style="margin-top: 8px;">一个纯前端开发的影视推荐展示网站，支持电影和动漫分类浏览、搜索筛选、点赞收藏、评分评价、留言互动等功能。采用现代暗色主题设计，支持亮色/暗色模式切换，完全响应式布局。</p>
             </div>
             <div class="project-item">
                 <h3>🛠️ 技术栈</h3>
-                <p>HTML5 + CSS3 + JavaScript（原生）+ localStorage 数据持久化 + Intersection Observer 图片懒加载 + CSS 动画效果 + GitHub Pages 部署</p>
+                <p>HTML5 + CSS3 + JavaScript（原生）+ localStorage 数据持久化 + GitHub Pages 部署</p>
             </div>
         </div>
 
         <div class="about-section">
-            <h2>📬 联系方式</h2>
+            <h2> 联系方式</h2>
             <div class="contact-list">
+                <div class="contact-item">
+                    <div class="contact-icon"></div>
+                    <div class="contact-info">
+                        <div class="contact-label">手机号码</div>
+                        <div class="contact-value">19533420705</div>
+                    </div>
+                </div>
                 <div class="contact-item">
                     <div class="contact-icon">📧</div>
                     <div class="contact-info">
                         <div class="contact-label">电子邮箱</div>
-                        <div class="contact-value">movie-fan@example.com</div>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">💬</div>
-                    <div class="contact-info">
-                        <div class="contact-label">微信公众号</div>
-                        <div class="contact-value">影视推荐墙</div>
+                        <div class="contact-value">1121966706@qq.com</div>
                     </div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon">🐙</div>
                     <div class="contact-info">
                         <div class="contact-label">GitHub</div>
-                        <div class="contact-value">github.com/your-username</div>
+                        <div class="contact-value"><a href="https://lxb075.github.io/movie-zy/" target="_blank">lxb075.github.io/movie-zy</a></div>
                     </div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon">📍</div>
                     <div class="contact-info">
-                        <div class="contact-label">所在地</div>
-                        <div class="contact-value">中国 · 北京</div>
+                        <div class="contact-label">期望工作地点</div>
+                        <div class="contact-value">深圳</div>
                     </div>
                 </div>
             </div>
