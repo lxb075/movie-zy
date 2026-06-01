@@ -1,6 +1,8 @@
-# 🎬 电影/动漫推荐墙
+# 🎬 影视推荐墙
 
 一个现代化的电影/动漫推荐墙网页应用，采用深色主题设计，包含完整的搜索、筛选、排序功能，以及丰富的交互动画效果。
+
+**在线访问**: https://lxb075.github.io/movie-zy
 
 ## ✨ 功能特性
 
@@ -11,6 +13,13 @@
 - 💌 **详情弹窗**: 点击卡片查看完整信息
 - ⏳ **加载状态**: 所有操作都有加载提示
 
+### 互动功能
+- ⭐ **评分系统**: 1-5星个人评分，数据持久化保存
+- ❤️ **点赞功能**: 支持点赞/取消点赞
+- 🔖 **收藏功能**: 支持收藏/取消收藏
+- 💬 **评论区**: 每部电影都可以评论互动
+- 📋 **留言板**: 全站留言板，访客可自由留言
+
 ### 视觉动效
 - 🎨 **AI生成图片**: Banner图和卡片封面使用AI生成
 - ✨ **滚动入场动画**: 卡片淡入+下滑效果
@@ -18,10 +27,19 @@
 - 🎭 **图片遮罩**: hover时显示渐变遮罩
 - 🔔 **弹窗动画**: 平滑过渡打开/关闭
 
+### 高级功能
+- 🔗 **分享功能**: 一键复制分享链接
+- 🖼️ **Lightbox图片查看器**: 全屏查看图片，支持左右切换
+- 📜 **页面进度条**: 顶部实时显示阅读进度
+- ⬆️ **返回顶部按钮**: 快速回到顶部
+- 📱 **图片懒加载**: 优化首屏加载速度
+- 🌓 **主题切换**: 自动/亮色/暗色模式
+
 ### 数据持久化
-- ❤️ **点赞功能**: 支持点赞/取消点赞
-- 📑 **收藏功能**: 支持收藏/取消收藏
-- 💾 **localStorage**: 数据自动保存，刷新不丢失
+- 💾 **localStorage**: 所有用户数据自动保存，刷新不丢失
+- 📊 **评分记录**: 个人评分永久保存
+- ❤️ **点赞记录**: 点赞状态持久化
+- 🔖 **收藏记录**: 收藏列表永不丢失
 
 ## 🚀 快速开始
 
@@ -29,14 +47,19 @@
 
 直接在浏览器中打开 `index.html` 文件即可使用。
 
+### GitHub Pages 部署
+
+项目已配置 GitHub Pages，可直接访问：
+https://lxb075.github.io/movie-zy
+
 ### 本地开发
 
 ```bash
 # 克隆仓库
-git clone https://github.com/lxb075/movie-recommendations.git
+git clone https://github.com/lxb075/movie-zy.git
 
 # 进入目录
-cd movie-recommendations
+cd movie-zy
 
 # 使用任意HTTP服务器启动
 python -m http.server 8000
@@ -48,16 +71,19 @@ npx serve
 
 ## 🛠️ 技术栈
 
-- **HTML5**: 页面结构
-- **CSS3**: 样式与动画
-- **JavaScript ES6+**: 交互逻辑
-- **localStorage**: 数据持久化
+- **HTML5**: 语义化页面结构
+- **CSS3**: 现代样式与动画
+- **JavaScript ES6+**: 原生JavaScript，无框架依赖
+- **localStorage**: 客户端数据持久化
+- **Intersection Observer API**: 图片懒加载
+- **GitHub Pages**: 免费静态网站托管
 
 ## 📱 响应式设计
 
 - **PC端**: 多列网格布局
 - **平板端**: 自适应两列/三列
 - **移动端**: 单列布局，触摸友好
+- **图片适配**: 所有设备自动优化显示
 
 ## 🎨 设计主题
 
@@ -71,57 +97,47 @@ npx serve
 | 次强调色 | `#06B6D4` | 青蓝色，科技感点缀 |
 | 主文字 | `#F8FAFC` | 高亮白，确保可读性 |
 | 次文字 | `#94A3B8` | 浅灰蓝，辅助信息 |
-| 边框/分割线 | `#1E293B` | 深色边框，低调区分 |
 
 ### AI绘图提示词
 
 **① 网站顶部Banner图**
 ```
-cinematic wide-screen banner, anime and movie characters collage, dark moody atmosphere, soft volumetric lighting, modern minimalist luxury, subtle film grain texture, neon accents in deep purple and cyan, dramatic composition, high-end aesthetic, 8k, ultra detailed, --ar 21:9 --style cinematic
+cinematic movie theater dark atmosphere purple neon lights film grain
 ```
 
 **② 卡片封面图**
 ```
-movie or anime poster style, cinematic composition, dramatic lighting, dark moody atmosphere, film grain texture, minimalist design, modern aesthetic, high quality, --ar 4:5 --style raw
+interstellar space movie poster black hole wormhole
 ```
-
-**③ 页面背景图**
 ```
-subtle dark texture background, soft film grain, minimalist luxury, deep navy blue to charcoal gradient, faint cinematic vignette, smooth texture, no distinct objects, neutral mood, --ar 16:9 --style raw
+anime demon slayer tanjiro dark fantasy sword
 ```
-
-### 布局规范
-
-**网格结构**
-- 桌面端(≥1200px): 4列网格
-- 平板端(768px-1199px): 3列网格
-- 移动端(<768px): 2列网格 / 单列
-
-**卡片规格**
-- 尺寸: 280px × 420px（宽×高）
-- 圆角: 16px
-- 阴影: `0 8px 30px rgba(0,0,0,0.4)`
-- 间距: 24px（卡片间）
-
-**字体层级**
-- 页面标题: 32px / 字重700
-- 卡片标题: 18px / 字重600
-- 卡片元数据: 14px / 字重400
-- 导航文字: 16px / 字重500
-
-### 动效规范
-
-1. **滚动渐入**: `opacity 0.6s ease-out, transform 0.6s ease-out`
-2. **卡片悬停**: `scale 1.05` + 阴影增强，过渡0.3s
-3. **模态框**: 从底部滑入，背景半透明渐变
 
 ## 📁 项目结构
 
 ```
-movie-recommendations/
-├── index.html    # 主页面（包含CSS和JS）
-└── README.md     # 项目说明
+movie-zy/
+├── index.html      # 主页面
+├── about.html      # 关于站长/个人简历页
+├── app.js          # JavaScript逻辑
+├── styles.css      # CSS样式
+└── README.md       # 项目说明
 ```
+
+## 👤 关于站长
+
+访问 [about.html](about.html) 查看站长个人信息、技能标签、项目介绍和联系方式。
+
+## 🎯 内容统计
+
+- **推荐影视**: 12部（持续更新中）
+- **电影**: 6部（经典电影推荐）
+- **动漫**: 6部（热门动漫推荐）
+- **分类标签**: 动作、喜剧、科幻、悬疑、爱情、奇幻、冒险、犯罪、运动
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
 
 ## 📄 许可证
 

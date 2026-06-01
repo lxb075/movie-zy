@@ -1,6 +1,8 @@
 /* ==================== 全局重置与基础样式 ==================== */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;min-height:100vh;line-height:1.6;transition:all .3s ease}
+/* ==================== 页面进度条 ==================== */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent-purple),var(--accent-cyan));z-index:10000;width:0;transition:width .1s ease}
 /* ==================== 暗色主题 ==================== */
 :root{--bg-primary:#0A0C10;--bg-secondary:#12161F;--accent-purple:#7C3AED;--accent-cyan:#06B6D4;--text-primary:#fff;--text-secondary:rgba(255,255,255,.7);--text-muted:rgba(255,255,255,.5)}
 [data-theme="dark"]{--bg-primary:#0A0C10;--bg-secondary:#12161F;--text-primary:#fff;--text-secondary:rgba(255,255,255,.7);--text-muted:rgba(255,255,255,.5);--bg-gradient:linear-gradient(135deg,#0A0C10 0%,#12161F 100%);--banner-gradient:linear-gradient(to bottom,transparent 0%,#0A0C10 100%);--card-overlay:linear-gradient(to top,rgba(10,12,16,.9)0%,transparent 60%);--modal-bg:rgba(0,0,0,.85)}
@@ -54,12 +56,18 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .card-meta{display:flex;gap:12px;margin-bottom:12px}
 .card-type{background:rgba(124,58,237,.2);color:var(--accent-purple);padding:4px 10px;border-radius:8px;font-size:.8rem}
 .card-date{color:var(--text-muted);font-size:.85rem}
+.card-rating{margin-bottom:12px}
 .card-desc{color:var(--text-secondary);font-size:.95rem;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.card-actions{display:flex;gap:16px}
+.card-actions{display:flex;gap:16px;flex-wrap:wrap}
 .action-btn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.9rem;padding:8px 0;transition:all .3s ease}
 .action-btn:hover{color:var(--text-primary)}
 .action-btn.liked{color:#EF4444}
 .action-btn.collected{color:var(--accent-cyan)}
+/* ==================== 星级评分 ==================== */
+.stars{display:inline-flex;gap:2px}
+.star{color:#ccc;font-size:1.2rem;transition:all .2s ease}
+.star.filled{color:#FFD700}
+.interactive .star:hover{color:#FFD700;transform:scale(1.2);cursor:pointer}
 /* ==================== 详情弹窗 ==================== */
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--modal-bg);display:flex;justify-content:center;align-items:center;z-index:1000;opacity:0;visibility:hidden;transition:all .3s ease;padding:20px}
 .modal-overlay.active{opacity:1;visibility:visible}
@@ -74,13 +82,71 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .modal-title{font-size:2rem;font-weight:800;margin-bottom:16px;color:var(--text-primary)}
 .modal-meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
 .modal-meta-item{background:var(--text-muted);padding:6px 14px;border-radius:20px;font-size:.9rem;color:var(--text-primary);opacity:.8}
+.modal-rating-section{margin-bottom:20px;padding:16px;background:var(--bg-primary);border-radius:12px}
+.rating-label{color:var(--text-secondary);margin-bottom:10px;font-size:.95rem}
 .modal-description{color:var(--text-secondary);font-size:1.05rem;line-height:1.8;margin-bottom:30px}
-.modal-actions{display:flex;gap:16px}
+.modal-share{margin-bottom:20px}
+.share-btn{padding:10px 20px;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-purple));color:white;border:none;border-radius:10px;cursor:pointer;font-size:.95rem;transition:all .3s ease}
+.share-btn:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(124,58,237,.3)}
+.modal-actions{display:flex;gap:16px;margin-bottom:30px}
 .modal-action-btn{flex:1;padding:14px 24px;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s ease}
 .modal-action-btn.primary{background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white}
 .modal-action-btn.secondary{background:var(--text-muted);color:var(--text-primary)}
+/* ==================== 评论区 ==================== */
+.modal-comments{margin-top:20px;padding-top:20px;border-top:1px solid var(--text-muted)}
+.modal-comments h3{font-size:1.1rem;color:var(--text-primary);margin-bottom:16px}
+.comments-list{max-height:200px;overflow-y:auto;margin-bottom:16px}
+.comment-item{padding:12px;background:var(--bg-primary);border-radius:10px;margin-bottom:10px}
+.comment-header{display:flex;justify-content:space-between;margin-bottom:8px}
+.comment-author{font-weight:600;color:var(--accent-purple)}
+.comment-time{color:var(--text-muted);font-size:.85rem}
+.comment-text{color:var(--text-secondary);font-size:.95rem}
+.no-comments{color:var(--text-muted);text-align:center;padding:20px;font-style:italic}
+.comment-form{display:flex;gap:10px}
+.comment-form input{flex:1;padding:10px 16px;border:2px solid var(--text-muted);border-radius:10px;background:var(--bg-primary);color:var(--text-primary);font-size:.95rem}
+.comment-form input:focus{outline:none;border-color:var(--accent-purple)}
+.comment-form button{padding:10px 24px;background:var(--accent-purple);color:white;border:none;border-radius:10px;cursor:pointer;transition:all .3s ease}
+.comment-form button:hover{background:var(--accent-cyan)}
+/* ==================== Lightbox图片查看器 ==================== */
+.lightbox{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);display:flex;justify-content:center;align-items:center;z-index:2000;opacity:0;visibility:hidden;transition:all .3s ease}
+.lightbox.active{opacity:1;visibility:visible}
+.lightbox-image{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;box-shadow:0 10px 50px rgba(0,0,0,.5)}
+.lightbox-close{position:absolute;top:20px;right:20px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:white;font-size:1.5rem;cursor:pointer;transition:all .3s ease;z-index:10}
+.lightbox-close:hover{background:var(--accent-purple);border-color:var(--accent-purple)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);color:white;font-size:2rem;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;justify-content:center}
+.lightbox-nav:hover{background:var(--accent-purple);border-color:var(--accent-purple)}
+.lightbox-nav.prev{left:20px}
+.lightbox-nav.next{right:20px}
+.lightbox-info{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);text-align:center;background:rgba(0,0,0,.7);padding:16px 32px;border-radius:12px}
+.lightbox-title{color:white;font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.lightbox-counter{color:rgba(255,255,255,.7);font-size:.9rem}
+/* ==================== 留言板 ==================== */
+.guestbook-section{background:var(--bg-secondary);padding:60px 20px;margin-top:60px}
+.guestbook-container{max-width:800px;margin:0 auto}
+.guestbook-title{font-size:2rem;color:var(--text-primary);margin-bottom:10px;text-align:center}
+.guestbook-desc{text-align:center;color:var(--text-secondary);margin-bottom:30px}
+.guestbook-form{display:flex;gap:12px;margin-bottom:30px}
+.guestbook-form input{flex:1;padding:14px 20px;border:2px solid var(--text-muted);border-radius:12px;background:var(--bg-primary);color:var(--text-primary);font-size:1rem}
+.guestbook-form input:focus{outline:none;border-color:var(--accent-purple)}
+.guestbook-form button{padding:14px 32px;background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white;border:none;border-radius:12px;cursor:pointer;font-size:1rem;font-weight:600;transition:all .3s ease}
+.guestbook-form button:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(124,58,237,.3)}
+.guestbook-list{max-height:400px;overflow-y:auto}
+.guestbook-item{padding:20px;background:var(--bg-primary);border-radius:12px;margin-bottom:16px;border-left:4px solid var(--accent-purple);transition:all .3s ease}
+.guestbook-item:hover{transform:translateX(5px)}
+.guestbook-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.guestbook-avatar{font-size:2rem}
+.guestbook-author{font-weight:600;color:var(--text-primary)}
+.guestbook-time{color:var(--text-muted);font-size:.85rem}
+.guestbook-text{color:var(--text-secondary);line-height:1.7}
+.no-guestbook{text-align:center;padding:40px;color:var(--text-muted);font-style:italic}
 /* ==================== 底部 ==================== */
-.footer{text-align:center;padding:40px 20px;color:var(--text-muted);border-top:1px solid var(--text-muted);margin-top:60px}
+.footer{text-align:center;padding:40px 20px;color:var(--text-muted);border-top:1px solid var(--text-muted);margin-top:0}
+.footer-link{color:var(--accent-purple);text-decoration:none;transition:all .3s ease}
+.footer-link:hover{color:var(--accent-cyan);text-decoration:underline}
+/* ==================== 返回顶部按钮 ==================== */
+.back-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:white;border:none;font-size:1.5rem;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(20px);transition:all .3s ease;box-shadow:0 5px 20px rgba(124,58,237,.3);z-index:999}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(124,58,237,.4)}
 /* ==================== 响应式布局 ==================== */
 @media (max-width:768px){
 .banner{height:300px}
@@ -90,9 +156,16 @@ body{background-color:var(--bg-primary);color:var(--text-primary)}
 .cards-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
 .modal-header{height:300px}
 .modal-title{font-size:1.5rem}
+.modal-actions{flex-direction:column}
+.guestbook-form{flex-direction:column}
+.lightbox-nav{width:45px;height:45px;font-size:1.5rem}
+.back-to-top{bottom:20px;right:20px;width:45px;height:45px}
 }
 @media (max-width:480px){
 .banner{height:250px}
 .banner-title{font-size:1.6rem}
 .cards-grid{grid-template-columns:1fr}
+.guestbook-form button{width:100%}
+.lightbox-nav.prev{left:10px}
+.lightbox-nav.next{right:10px}
 }
